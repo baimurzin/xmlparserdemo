@@ -34,6 +34,7 @@ public class XMLValidationServiceImpl implements XmlService {
 
     /**
      * Check whether the file is valid or not
+     *
      * @param xmlFilePath path to xml file
      * @param schemaFilePath path to schema
      * @return true if file valid otherwise returns false

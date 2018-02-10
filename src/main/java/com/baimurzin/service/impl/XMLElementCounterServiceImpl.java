@@ -16,6 +16,7 @@ public class XMLElementCounterServiceImpl implements XmlService {
 
     /**
      * Count the number of certain elements in xml File
+     *
      * @param xmlFile target xml file
      * @param elementName tag element name to count in xml file
      * @return the number of elements
@@ -37,6 +38,7 @@ public class XMLElementCounterServiceImpl implements XmlService {
         }
         return document.getElementsByTagName(elementName).getLength();
     }
+
     @Override
     public Object apply(Map<String, String> params) {
         String xmlParam = params.get("xml");
@@ -51,7 +53,7 @@ public class XMLElementCounterServiceImpl implements XmlService {
         if (elementName != null) {
             return countElements(xmlFile, elementName);
         } else {
-            throw new IllegalArgumentException("Xsd file not found");
+            throw new IllegalArgumentException("No required param specified");
         }
     }
 }

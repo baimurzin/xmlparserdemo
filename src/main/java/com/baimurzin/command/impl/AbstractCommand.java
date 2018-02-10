@@ -9,6 +9,7 @@ import java.util.Set;
 
 public class AbstractCommand {
     protected Set<Option> options = new HashSet<>();
+    protected Set<String> requiredOptions = new HashSet<>();
     protected HashMap<String, String> parameters = new HashMap<>();
     protected XmlService service;
 
@@ -18,4 +19,5 @@ public class AbstractCommand {
         this.options.add(xmlOption);
 //        this.options.add(new Option("s", false, "Option to show execution time"));
     }
+
 }
