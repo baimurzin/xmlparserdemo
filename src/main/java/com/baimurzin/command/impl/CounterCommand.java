@@ -1,6 +1,7 @@
 package com.baimurzin.command.impl;
 
 import com.baimurzin.command.Command;
+import com.baimurzin.output.Response;
 import com.baimurzin.service.impl.XMLElementCounterServiceImpl;
 import org.apache.commons.cli.Option;
 
@@ -28,8 +29,10 @@ public class CounterCommand extends AbstractCommand implements Command {
     }
 
     @Override
-    public Object execute() {
-        return service.apply(parameters);
+    public Response execute() {
+        Response response = new Response();
+        response.setData(service.apply(parameters));
+        return response;
     }
 
     @Override

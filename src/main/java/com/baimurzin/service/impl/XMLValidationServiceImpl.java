@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-public class XMLValidationServiceImpl implements XmlService {
+public class XMLValidationServiceImpl implements XmlService<Boolean> {
 
     private SchemaFactory schemaFactory;
 
@@ -22,7 +22,7 @@ public class XMLValidationServiceImpl implements XmlService {
     }
 
     @Override
-    public Object apply(Map<String, String> params) {
+    public Boolean apply(Map<String, String> params) {
         String xsd = params.get("xsd");
         String xml = params.get("xml");
         if(xsd != null && xml != null) {

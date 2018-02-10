@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-public class XMLElementCounterServiceImpl implements XmlService {
+public class XMLElementCounterServiceImpl implements XmlService<Integer> {
 
     /**
      * Count the number of certain elements in xml File
@@ -40,7 +40,7 @@ public class XMLElementCounterServiceImpl implements XmlService {
     }
 
     @Override
-    public Object apply(Map<String, String> params) {
+    public Integer apply(Map<String, String> params) {
         String xmlParam = params.get("xml");
         if (xmlParam == null || xmlParam.isEmpty()) {
             throw new IllegalArgumentException("Xml parameter not valid");

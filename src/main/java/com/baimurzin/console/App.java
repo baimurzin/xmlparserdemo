@@ -4,11 +4,15 @@ import com.baimurzin.command.Command;
 import com.baimurzin.command.CommandFactory;
 import com.baimurzin.command.CommandRegistry;
 import com.baimurzin.command.impl.CommandRegistryImpl;
+import com.baimurzin.output.Response;
 import com.baimurzin.service.impl.XMLElementCounterServiceImpl;
 import com.baimurzin.service.impl.XMLValidationServiceImpl;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +20,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class App  {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 
     private CommandLineBuilder commandLine;
     private CommandRegistry commandRegistry = CommandRegistryImpl.getInstance();
@@ -35,9 +41,8 @@ public class App  {
                 .build(args);
         List<Command> commandList = CommandFactory.getInstance().getCommands(commandLine.getCmd());
         commandList.forEach(command -> {
-            Object o = command.execute();
-            //todo add output
-            System.out.println(o);
+            Response response = command.execute();
+            LOGGER.info("Result from -{} command: {}",command.getCommandIdentifier(), response.getData());
         });
     }
 

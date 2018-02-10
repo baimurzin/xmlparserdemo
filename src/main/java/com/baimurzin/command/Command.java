@@ -1,5 +1,6 @@
 package com.baimurzin.command;
 
+import com.baimurzin.output.Response;
 import org.apache.commons.cli.Option;
 
 import java.util.Set;
@@ -11,7 +12,7 @@ public interface Command {
 
     String getCommandIdentifier();
     Set<Option> getOptions();
-    Object execute();
+    Response execute();
     void addParameter(String paramName, String value);
     String getCommandDescription();
     Set<String> getRequiredOptions();
