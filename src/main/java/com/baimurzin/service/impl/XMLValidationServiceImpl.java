@@ -1,7 +1,7 @@
 package com.baimurzin.service.impl;
 
-import com.baimurzin.exceptions.InvalidSchemaException;
-import com.baimurzin.service.ValidationService;
+import com.baimurzin.exceptions.InvalidInputException;
+import com.baimurzin.service.XmlService;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
@@ -11,11 +11,9 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
+import java.util.Map;
 
-public class XMLValidationServiceImpl implements ValidationService {
-
-    private static final Logger LOGGER = Logger.getLogger(XMLValidationServiceImpl.class.getName());
+public class XMLValidationServiceImpl implements XmlService {
 
     private SchemaFactory schemaFactory;
 
@@ -23,25 +21,44 @@ public class XMLValidationServiceImpl implements ValidationService {
         schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     }
 
-    public boolean isValid(String xmlFilePath, String schemaFilePath) {
+    @Override
+    public Object apply(Map<String, String> params) {
+        String xsd = params.get("xsd");
+        String xml = params.get("xml");
+        if(xsd != null && xml != null) {
+            return isValid(xml, xsd);
+        } else {
+            throw new IllegalArgumentException("Xsd file not found");
+        }
+    }
+
+    /**
+     * Check whether the file is valid or not
+     * @param xmlFilePath path to xml file
+     * @param schemaFilePath path to schema
+     * @return true if file valid otherwise returns false
+     */
+    private boolean isValid(String xmlFilePath, String schemaFilePath) {
         File xmlFile = new File(xmlFilePath);
         File schemaFile = new File(schemaFilePath);
         return isValid(xmlFile, schemaFile);
     }
 
-    public boolean isValid(File xmlFile, File schemaFile) {
+    private boolean isValid(File xmlFile, File schemaFile) {
         Schema schema = null;
         try {
             schema = schemaFactory.newSchema(new StreamSource(schemaFile));
         } catch (SAXException e) {
-            throw new InvalidSchemaException("Invalid file input", e);
+            throw new InvalidInputException("Invalid file input", e);
         }
         Validator validator = schema.newValidator();
         try {
             validator.validate(new StreamSource(xmlFile));
             return true;
-        } catch (SAXException | IOException e) {
-            throw new InvalidSchemaException("Invalid file input", e);
+        } catch (SAXException e) {
+            return false;
+        } catch (IOException e) {
+            throw new InvalidInputException("File not specified");
         }
     }
 

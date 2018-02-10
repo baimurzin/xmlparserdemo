@@ -1,9 +1,7 @@
 package com.baimurzin.service.impl;
 
-import com.baimurzin.exceptions.InvalidSchemaException;
-import com.baimurzin.service.ElementCounterService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baimurzin.exceptions.InvalidInputException;
+import com.baimurzin.service.XmlService;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -12,34 +10,48 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
-public class XMLElementCounterServiceImpl implements ElementCounterService {
+public class XMLElementCounterServiceImpl implements XmlService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(XMLElementCounterServiceImpl.class);
-
-
-    //We can design this class to handle a file in different way, and store  it as a local variable
-    //to make smth operation
-    public int countElements(File xmlFile, String elementName) {
-        if (xmlFile == null) {
-            throw new IllegalArgumentException();
-        }
+    /**
+     * Count the number of certain elements in xml File
+     * @param xmlFile target xml file
+     * @param elementName tag element name to count in xml file
+     * @return the number of elements
+     */
+    private int countElements(File xmlFile, String elementName) {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = null;
         try {
             documentBuilder = documentBuilderFactory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
-            //todo refactor change to more semantic name
-            throw new InvalidSchemaException("Not valid conifg", e);
+            throw new InvalidInputException("Not valid config", e);
         }
 
         Document document = null;
         try {
             document = documentBuilder.parse(xmlFile);
         } catch (SAXException | IOException e) {
-            //add excepiton context
-            throw new InvalidSchemaException("File invalid", e);
+            throw new InvalidInputException("File invalid", e);
         }
         return document.getElementsByTagName(elementName).getLength();
+    }
+    @Override
+    public Object apply(Map<String, String> params) {
+        String xmlParam = params.get("xml");
+        if (xmlParam == null || xmlParam.isEmpty()) {
+            throw new IllegalArgumentException("Xml parameter not valid");
+        }
+        File xmlFile = new File(xmlParam);
+        if (!xmlFile.exists()) {
+            throw new IllegalArgumentException("Xml file not found");
+        }
+        String elementName = params.get("c");
+        if (elementName != null) {
+            return countElements(xmlFile, elementName);
+        } else {
+            throw new IllegalArgumentException("Xsd file not found");
+        }
     }
 }

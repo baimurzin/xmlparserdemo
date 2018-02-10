@@ -1,25 +1,23 @@
 package com.baimurzin;
 
+import com.baimurzin.command.CommandFactory;
+import com.baimurzin.command.impl.CounterCommand;
+import com.baimurzin.command.impl.ValidationCommand;
+import com.baimurzin.console.App;
 import com.baimurzin.console.CommandLineBuilder;
-import com.baimurzin.service.ElementCounterService;
-import com.baimurzin.service.impl.XMLElementCounterServiceImpl;
 import org.apache.commons.cli.CommandLine;
 
 public class ApplicationEntryPoint {
 
-    //todo add DI
-    private static ElementCounterService elementCounterService = new XMLElementCounterServiceImpl();
+    private static CommandFactory commandFactory = CommandFactory.getInstance();
+
+    //todo add DI to all services
 
     public static void main(String[] args) {
-        CommandLine cmd = new CommandLineBuilder()
-                .addOption("xml", "xml", true, "Xml file path")
-                .addOption("ch", "schema", true, "Schema file path")
-                .addOption("v", "validation", false, "Option to validate")
-                .addOption("c", "count", true, "Option to count an element")
-                .addOption("s", "time", false, "Option to show execution time")
-                .build(args);
-
-        //todo
-
+        App.newBuilder()
+                .addOptions(commandFactory.registerCommands(new CounterCommand()))
+                .addOptions(commandFactory.registerCommands(new ValidationCommand()))
+                .build()
+                .run(args);
     }
 }
