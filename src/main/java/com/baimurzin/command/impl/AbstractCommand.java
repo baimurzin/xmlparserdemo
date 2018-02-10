@@ -17,7 +17,6 @@ public class AbstractCommand {
         Option xmlOption = new Option("xml", true, "Xml file path");
         xmlOption.setRequired(true);
         this.options.add(xmlOption);
-//        this.options.add(new Option("s", false, "Option to show execution time"));
     }
 
 }

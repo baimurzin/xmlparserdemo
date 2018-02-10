@@ -1,6 +1,6 @@
 package com.baimurzin.service.impl;
 
-import com.baimurzin.exceptions.InvalidInputException;
+import com.baimurzin.exceptions.InvalidDataException;
 import com.baimurzin.service.XmlService;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -27,14 +27,14 @@ public class XMLElementCounterServiceImpl implements XmlService<Integer> {
         try {
             documentBuilder = documentBuilderFactory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
-            throw new InvalidInputException("Not valid config", e);
+            throw new InvalidDataException("Not valid config", e);
         }
 
         Document document = null;
         try {
             document = documentBuilder.parse(xmlFile);
         } catch (SAXException | IOException e) {
-            throw new InvalidInputException("File invalid", e);
+            throw new InvalidDataException("File invalid", e);
         }
         return document.getElementsByTagName(elementName).getLength();
     }

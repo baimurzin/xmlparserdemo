@@ -17,7 +17,7 @@ public class ApplicationEntryPoint {
     //todo make some logic and design improvements to achieve better flexibility
 
     public static void main(String[] args) {
-        //to define new command just put into registry before application start
+        //to define new command just put into registry from wherever you want before application start
         App.newBuilder()
                 .addCommand(new CounterCommand())
                 .addCommand(new ValidationCommand())

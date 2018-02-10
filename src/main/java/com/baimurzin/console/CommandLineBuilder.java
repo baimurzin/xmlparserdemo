@@ -44,7 +44,7 @@ public class CommandLineBuilder {
         try {
             this.cmd = commandLineParser.parse(this.options, args);
         } catch (ParseException e) {
-            formatter.printHelp("Applicataion name", this.options);
+            formatter.printHelp("Application name", this.options);
             System.exit(0);
         }
 

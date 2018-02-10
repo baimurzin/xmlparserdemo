@@ -15,7 +15,6 @@ public class CommandFactory {
 
     private static CommandFactory instance;
     private CommandRegistry commandRegistry = CommandRegistryImpl.getInstance();
-    private List<Command> commands = new ArrayList<>();
 
     public static CommandFactory getInstance() {
         if (instance == null) {
@@ -43,28 +42,6 @@ public class CommandFactory {
             Command command = getCommand(option);
             command.parseArguments(cmd.getOptions());
             return command;
-        }).collect(Collectors.toList());
-    }
-
-    //todo refactor, change method argument parsing
-    public List<Command> getCommands(CommandLineBuilder commandLine) {
-        CommandLine cmd = commandLine.getCmd();
-
-        return commands.stream().filter(command -> {
-            //java -jar app.jar -v -c -xml file.xml -xsd file.xsd -s
-            //java -jar app.jar -c -xml file.xml
-            List<String> args = command.getOptions().stream().map(Option::getOpt).collect(Collectors.toList());
-            List<String> userArgs = Arrays.stream(cmd.getOptions()).map(option -> {
-                if (option.hasArg()) {
-                    command.addParameter(option.getOpt(), option.getValue());
-                }
-                return option.getOpt();
-            }).collect(Collectors.toList());
-//            if (userArgs.contains("s")) {
-//                userArgs.remove("s");
-//                //todo handle optional params
-//            }
-            return userArgs.containsAll(args);
         }).collect(Collectors.toList());
     }
 }

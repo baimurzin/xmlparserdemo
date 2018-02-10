@@ -1,6 +1,6 @@
 package com.baimurzin.service.impl;
 
-import com.baimurzin.exceptions.InvalidInputException;
+import com.baimurzin.exceptions.InvalidDataException;
 import com.baimurzin.service.XmlService;
 import org.xml.sax.SAXException;
 
@@ -50,7 +50,7 @@ public class XMLValidationServiceImpl implements XmlService<Boolean> {
         try {
             schema = schemaFactory.newSchema(new StreamSource(schemaFile));
         } catch (SAXException e) {
-            throw new InvalidInputException("Invalid file input", e);
+            throw new InvalidDataException("Invalid file input", e);
         }
         Validator validator = schema.newValidator();
         try {
@@ -59,7 +59,7 @@ public class XMLValidationServiceImpl implements XmlService<Boolean> {
         } catch (SAXException e) {
             return false;
         } catch (IOException e) {
-            throw new InvalidInputException("File not specified");
+            throw new InvalidDataException("File not specified");
         }
     }
 
