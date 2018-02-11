@@ -1,10 +1,6 @@
 package com.baimurzin.command;
 
-import com.baimurzin.command.impl.CommandRegistryImpl;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 public interface CommandRegistry {

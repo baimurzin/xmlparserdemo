@@ -1,11 +1,9 @@
 package com.baimurzin.command;
 
 import com.baimurzin.command.impl.CommandRegistryImpl;
-import com.baimurzin.console.CommandLineBuilder;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;

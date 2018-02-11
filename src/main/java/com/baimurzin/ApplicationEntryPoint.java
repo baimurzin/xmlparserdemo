@@ -1,13 +1,8 @@
 package com.baimurzin;
 
-import com.baimurzin.command.CommandFactory;
-import com.baimurzin.command.CommandRegistry;
-import com.baimurzin.command.impl.CommandRegistryImpl;
 import com.baimurzin.command.impl.CounterCommand;
 import com.baimurzin.command.impl.ValidationCommand;
 import com.baimurzin.console.App;
-import com.baimurzin.console.CommandLineBuilder;
-import org.apache.commons.cli.CommandLine;
 
 public class ApplicationEntryPoint {
 
